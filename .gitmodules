@@ -1,0 +1,3 @@
+[submodule "front-end/react-app"]
+	path = front-end/react-app
+	url = https://github.com/namizz/front-end-repo.git
