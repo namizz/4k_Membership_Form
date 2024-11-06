@@ -89,9 +89,48 @@ const createUserInfo = async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" });
   }
 };
-//get by Id
 
 // udate function
+const update = async (req, res) => {
+  const { phonenum } = req.query;
+  console.log(phonenum);
+  const {
+    firstname,
+    lastname,
+    date_of_birth,
+    church,
+    country,
+    phone,
+    region,
+    email,
+    department,
+    batch,
+    img,
+    fav_verse,
+  } = req.body;
+  console.log("req.body", JSON.stringify(req.body, null, 2));
+  try {
+    await pool.query(database.updateMember, [
+      firstname,
+      lastname,
+      date_of_birth === "" ? null : date_of_birth,
+      church,
+      country,
+      phone,
+      region,
+      email,
+      department,
+      batch,
+      img,
+      fav_verse,
+      phone,
+    ]);
+    res.status(200).send({ msg: "Successfully updated" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ msg: "database update error" });
+  }
+};
 
 // delete function
 
@@ -110,4 +149,4 @@ const ImageUpp = (req, res) => {
   }
 };
 
-module.exports = { getAll, createUserInfo, getID, ImageUpp };
+module.exports = { getAll, createUserInfo, getID, ImageUpp, update };

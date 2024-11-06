@@ -8,6 +8,7 @@ const {
   createUserInfo,
   ImageUpp,
   getID,
+  update,
 } = require("../controller/controller");
 
 const router = Router();
@@ -16,5 +17,6 @@ router.get("/", getAll);
 router.post("/", createUserInfo);
 router.post("/upload", upload.single("file"), ImageUpp);
 router.get("/:id", getID);
+router.patch("/edit", update);
 
 module.exports = router;
