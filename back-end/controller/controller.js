@@ -1,6 +1,7 @@
 const pool = require("../db/connect");
 const database = require("../db/queries");
 const { upload } = require("../imageupload/cloudinary");
+const books = require("../bibleverse/book");
 
 const getAll = async (req, res) => {
   console.log("Get API");
@@ -149,4 +150,20 @@ const ImageUpp = (req, res) => {
   }
 };
 
-module.exports = { getAll, createUserInfo, getID, ImageUpp, update };
+const bibleverse = (req, res) => {
+  const bookNumber = parseInt(req.params.id, 10);
+  if (bookNumber >= 1 && bookNumber <= books.length) {
+    res.json({ bookName: books[bookNumber - 1] }); // Subtract 1 since array is 0-indexed
+  } else {
+    res.status(400).json({ error: "Invalid book number" });
+  }
+};
+
+module.exports = {
+  getAll,
+  createUserInfo,
+  getID,
+  ImageUpp,
+  update,
+  bibleverse,
+};
