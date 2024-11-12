@@ -22,10 +22,12 @@ where phone = $13;
 
 
 `;
+const deleteById = `DELETE FROM members where phone=$1 `;
 module.exports = {
   getAllInfo,
   checkEmail,
   createMember,
   getByID,
   updateMember,
+  deleteById,
 };

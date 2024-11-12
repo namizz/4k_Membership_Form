@@ -134,6 +134,14 @@ const update = async (req, res) => {
 };
 
 // delete function
+const remove = (req, res) => {
+  const p = req.query.phone;
+  if (!p) {
+    return res.status(400).send({ msg: "Phone number is required to delete" });
+  }
+  pool.query(database.deleteById, [p]);
+  res.status(200).send({ msg: "Successfully deleted" });
+};
 
 // Image uploader
 const ImageUpp = (req, res) => {
@@ -166,4 +174,5 @@ module.exports = {
   ImageUpp,
   update,
   bibleverse,
+  remove,
 };

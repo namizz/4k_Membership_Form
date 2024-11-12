@@ -10,6 +10,7 @@ const {
   getID,
   update,
   bibleverse,
+  remove,
 } = require("../controller/controller");
 
 const router = Router();
@@ -20,5 +21,6 @@ router.post("/", createUserInfo);
 router.post("/upload", upload.single("file"), ImageUpp);
 router.get("/:id", getID);
 router.patch("/edit", update);
+router.delete("/", remove);
 
 module.exports = router;
