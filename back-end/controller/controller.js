@@ -5,12 +5,22 @@ const books = require("../bibleverse/book");
 
 const getAll = async (req, res) => {
   console.log("Get API");
+  const phone = req.query.phone;
+
   try {
-    const result = await pool.query(database.getAllInfo);
+    let sqlQuery = database.getAllInfo;
+    if (phone) {
+      sqlQuery += ` WHERE phone = $1`;
+    }
+
+    // Execute the query with or without filtering
+    const result = await pool.query(sqlQuery, phone ? [phone] : null);
+
     console.log(result);
     res.json(result.rows);
   } catch (error) {
-    console.error("Error in extracting information");
+    console.error("Error in extracting information", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 const getID = async (req, res) => {
