@@ -16,8 +16,9 @@ email = CASE WHEN email IS DISTINCT FROM $8 THEN $8 ELSE email END,
 department = CASE WHEN department IS DISTINCT FROM $9 THEN $9 ELSE department END,
 batch = CASE WHEN batch IS DISTINCT FROM $10 THEN $10 ELSE batch END,
 img = CASE WHEN img IS DISTINCT FROM $11  THEN $11 ELSE img END,
-fav_verse = CASE WHEN fav_verse IS DISTINCT FROM $12  THEN $12 ELSE fav_verse END 
-where phone = $13;
+fav_verse = CASE WHEN fav_verse IS DISTINCT FROM $12 THEN $12 ELSE fav_verse END,
+password = CASE WHEN password IS DISTINCT FROM $13 THEN $13 ELSE password END 
+where phone = $14;
 
 
 

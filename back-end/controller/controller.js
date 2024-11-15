@@ -5,24 +5,33 @@ const books = require("../bibleverse/book");
 
 const getAll = async (req, res) => {
   console.log("Get API");
-  const phone = req.query.phone;
+
+  const { phone, password } = req.query; // Destructure both phone and password from the query params
 
   try {
-    let sqlQuery = database.getAllInfo;
-    if (phone) {
-      sqlQuery += ` WHERE phone = $1`;
+    let sqlQuery = "SELECT * FROM members"; // Replace 'your_table' with your actual table name
+
+    // Add WHERE clause if phone and password are provided
+    if (phone && password) {
+      sqlQuery += ` WHERE phone = $1 AND password = $2`; // Check both phone and password
+    } else if (phone) {
+      sqlQuery += ` WHERE phone = $1`; // Only check phone if password is not provided
     }
 
-    // Execute the query with or without filtering
-    const result = await pool.query(sqlQuery, phone ? [phone] : null);
+    // Execute the query with or without filtering based on query parameters
+    const result = await pool.query(
+      sqlQuery,
+      phone && password ? [phone, password] : phone ? [phone] : []
+    );
 
     console.log(result);
-    res.json(result.rows);
+    res.json(result.rows); // Return the query result as a JSON response
   } catch (error) {
     console.error("Error in extracting information", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const getID = async (req, res) => {
   const id = req.params.id;
   try {
@@ -52,6 +61,7 @@ const createUserInfo = async (req, res) => {
     batch,
     img,
     fav_verse,
+    password,
   } = req.body;
   console.log("req.body", JSON.stringify(req.body, null, 2));
   // check for email duplication
@@ -91,6 +101,7 @@ const createUserInfo = async (req, res) => {
         batch,
         img,
         fav_verse,
+        password,
       ]);
       console.log("this should be the end of the be");
       return res.status(201).json({ msg: "Successfully added" });
@@ -103,8 +114,7 @@ const createUserInfo = async (req, res) => {
 
 // udate function
 const update = async (req, res) => {
-  const { phonenum } = req.query;
-  console.log(phonenum);
+  console.log("req.body", JSON.stringify(req.body, null, 2));
   const {
     firstname,
     lastname,
@@ -118,8 +128,9 @@ const update = async (req, res) => {
     batch,
     img,
     fav_verse,
+    password,
   } = req.body;
-  console.log("req.body", JSON.stringify(req.body, null, 2));
+
   try {
     await pool.query(database.updateMember, [
       firstname,
@@ -134,12 +145,13 @@ const update = async (req, res) => {
       batch,
       img,
       fav_verse,
+      password,
       phone,
     ]);
     res.status(200).send({ msg: "Successfully updated" });
   } catch (error) {
     console.log(error);
-    return res.status(500).send({ msg: "database update error" });
+    return res.status(500).send({ msg: "database update unsuccessful" });
   }
 };
 
