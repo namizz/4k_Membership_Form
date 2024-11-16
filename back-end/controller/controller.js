@@ -2,6 +2,37 @@ const pool = require("../db/connect");
 const database = require("../db/queries");
 const { upload } = require("../imageupload/cloudinary");
 const books = require("../bibleverse/book");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const login = async (req, res) => {
+  const { phone, password } = req.body;
+  console.log(req.body);
+  try {
+    const result = await pool.query("select * from members where phone=$1", [
+      phone,
+    ]);
+    const user = result.rows[0];
+    console.log(user);
+
+    if (!user) {
+      return res.status(401).json({ msg: "Invalud credential" });
+    }
+    const pass = password == user.password;
+    console.log(pass, password, user.password);
+    if (!pass) return res.status(401).json({ msg: "Invalid credentials" });
+
+    const token = jwt.sign(
+      { phone: user.phone, password: user.password },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+    res.status(200).json({ token });
+  } catch (error) {
+    console.error("Login error", error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
 
 const getAll = async (req, res) => {
   console.log("Get API");
@@ -197,4 +228,5 @@ module.exports = {
   update,
   bibleverse,
   remove,
+  login,
 };

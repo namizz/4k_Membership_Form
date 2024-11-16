@@ -11,6 +11,7 @@ const {
   update,
   bibleverse,
   remove,
+  login,
 } = require("../controller/controller");
 
 const router = Router();
@@ -22,5 +23,6 @@ router.post("/upload", upload.single("file"), ImageUpp);
 router.get("/:id", getID);
 router.patch("/edit", update);
 router.delete("/", remove);
+router.post("/login", login);
 
 module.exports = router;
