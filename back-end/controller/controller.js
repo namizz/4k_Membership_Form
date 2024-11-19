@@ -8,25 +8,36 @@ require("dotenv").config();
 const login = async (req, res) => {
   const { phone, password } = req.body;
   console.log(req.body);
+
   try {
     const result = await pool.query("select * from members where phone=$1", [
       phone,
     ]);
     const user = result.rows[0];
-    console.log(user);
 
     if (!user) {
-      return res.status(401).json({ msg: "Invalud credential" });
+      return res.status(401).json({ msg: "Invalid credentials" });
     }
-    const pass = password == user.password;
-    console.log(pass, password, user.password);
-    if (!pass) return res.status(401).json({ msg: "Invalid credentials" });
 
-    const token = jwt.sign(
-      { phone: user.phone, password: user.password },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
+    const pass = password
+      ? password === user.password
+      : user.password === null
+      ? true
+      : null;
+    console.log(pass, password, user.password);
+
+    if (!pass) {
+      return res.status(401).json({ msg: "Invalid credentials" });
+    }
+
+    // Create the payload based on whether `password` is provided
+    const payload = { phone: user.phone };
+    if (password) payload.password = user.password;
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
     res.status(200).json({ token });
   } catch (error) {
     console.error("Login error", error);
@@ -54,8 +65,6 @@ const getAll = async (req, res) => {
       sqlQuery,
       phone && password ? [phone, password] : phone ? [phone] : []
     );
-
-    console.log(result);
     res.json(result.rows); // Return the query result as a JSON response
   } catch (error) {
     console.error("Error in extracting information", error);
@@ -92,7 +101,6 @@ const createUserInfo = async (req, res) => {
     batch,
     img,
     fav_verse,
-    password,
   } = req.body;
   console.log("req.body", JSON.stringify(req.body, null, 2));
   // check for email duplication
@@ -132,7 +140,6 @@ const createUserInfo = async (req, res) => {
         batch,
         img,
         fav_verse,
-        password,
       ]);
       console.log("this should be the end of the be");
       return res.status(201).json({ msg: "Successfully added" });
