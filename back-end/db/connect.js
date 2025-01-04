@@ -1,10 +1,10 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "arat_kilo_fellowship_user",
-  host: "ct2afb52ng1s73ecsvf0-a.oregon-postgres.render.com", // Use the correct host provided by Render
-  database: "arat_kilo_fellowship",
-  password: "SZMSfvGxUW9vm2FkWktH21PN2PMg5iJU",
+  user: "arat_kilo_fellowship_gbc1_user",
+  host: "ctshupggph6c738c7lqg-a.oregon-postgres.render.com", // Use the correct host provided by Render
+  database: "arat_kilo_fellowship_gbc1",
+  password: "YpR40QV7H1K794ZqHGM5xLsVtwbbY4Vo",
   port: 5432,
   ssl: {
     rejectUnauthorized: false, // Disable certificate validation (only for development)
