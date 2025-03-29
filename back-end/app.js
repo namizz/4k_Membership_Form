@@ -8,7 +8,7 @@ const port = process.env.PORT || 10000;
 // Configure CORS
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow frontend origin
+    origin: "https://4k-fellow-naomis-projects-6a2c1253.vercel.app", // Allow frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
