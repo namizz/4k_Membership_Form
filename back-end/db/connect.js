@@ -2,8 +2,7 @@ const { Pool } = require("pg");
 
 const pool = new Pool({
   user: "fourkfellowship_user",
-  connectionString:
-    "postgresql://fourkfellowship_user:3M1l3Mru1hg6u4GwzQGisedwKnPlb0Az@dpg-cvk4c315pdvs73a2e390-a.oregon-postgres.render.com/fourkfellowship",
+  host: "dpg-cvk4c315pdvs73a2e390-a.oregon-postgres.render.com",
   database: "fourkfellowship",
   password: "3M1l3Mru1hg6u4GwzQGisedwKnPlb0Az",
   port: 5432,
