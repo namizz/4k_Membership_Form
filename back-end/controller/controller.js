@@ -180,7 +180,7 @@ const update = async (req, res) => {
       region,
       email,
       department,
-      batch,
+      batch === "" ? null : parseInt(batch),
       img,
       fav_verse,
       password,
