@@ -17,8 +17,7 @@ Users can observe a list of current 4K Fellowship members.
 
 Anyone interested can fill out the membership form by entering personal details.
 
-![Step 2a](./imagesRd/pic2.png)  
-![Step 2b](./imagesRd/pic3.png)
+![Step 2a](./imagesRd/pic3.png)
 
 ### Step 3: Filter Members
 
@@ -26,5 +25,5 @@ The admin or team can filter members based on specific criteria.
 For example, the view can be filtered to only show Computer Science students (CS).
 
 ![Step 3a](./imagesRd/pic5.png)  
-![Step 3b](./imageRd/pic6.png)  
-![Step 3c](./imageRd/pic7.png)
+![Step 3b](./imagesRd/pic6.png)
+![Step 3c](./imagesRd/pic7.png)
